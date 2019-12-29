@@ -1,0 +1,16 @@
+{
+  "id": "1578909",
+  "name": "ticketsOnline",
+  "font_family": "iconfont",
+  "css_prefix_text": "el-icon-avatar",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "356476",
+      "name": "头像",
+      "font_class": "touxiang",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    }
+  ]
+}
