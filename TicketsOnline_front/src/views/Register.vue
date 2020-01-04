@@ -33,9 +33,10 @@
             <el-option label="社会人士" value="other"></el-option>
           </el-select>
       </el-form-item>
-
-      <el-form-item label="上传头像" prop="avatar">
-
+      <el-form-item prop="avatar" label="上传头像">
+        <div>
+          <upload v-on:listenToChildEvent="getAvatarUrl" />
+        </div>
       </el-form-item>
       <div class="btns">
         <el-button type="primary" @click="onSubmit('form')" style="flex: 1 1 auto">注册</el-button>
@@ -47,11 +48,12 @@
 </template>
 
 <script>
+import Upload from "../components/Upload.vue";
 
 export default {
     name: "Register",
     components: {
-  
+      Upload,
     },
     data() {
       var validateEmail = (rule, value, callback) => {
@@ -94,7 +96,7 @@ export default {
           checkPass: "",
           email: "",
           phone: "",
-          avator: "",
+          avatar: "",
           gender: "",
           age:"",
           organization:"",
@@ -122,7 +124,11 @@ export default {
 
         onCancle() {
             this.$router.push({ name: "Login" });
-        }
+        },
+
+        getAvatarUrl: function(data) {
+          console.log(data);
+        },
     }
 }
 </script>
