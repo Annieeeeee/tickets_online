@@ -10,9 +10,9 @@
         :on-remove="handleRemove"
         :action="action"
         :data="postData"
-        class="upload-demo"
+        class="pload-demo"
         drag
-        multiple>
+        multiple>u
 
         <em>点击上传头像</em>
         </el-upload>

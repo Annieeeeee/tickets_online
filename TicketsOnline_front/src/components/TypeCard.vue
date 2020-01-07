@@ -2,12 +2,15 @@
       <el-card id="component">
           <div id="title">{{title}}</div>
           <div id="content"> 
-            <div id="content1">   
+            <div id="content1" v-if="items">   
               <div v-for="(item, index) in items" :key="index">
                 <div  v-if="index === 0">
-                  <img src="./../assets/img/demo1.png" style="height:230px;">
-                  <div id="activity-title1">{{item.title}}</div>
-                  <div id="text1">{{item.time}}</div>
+                  <img :src="item.poster" style="height:230px; width: 160px">
+                  <div><el-button type="text" id="activity-title1"
+                             @click="$router.push({name:'Activity', params: {activityId: item.id}})"
+                             >{{item.name}}</el-button></div>
+                  <div id="text1">{{item.time_start}}</div>
+                  <div id="text1">{{item.time_end}}</div>
                   <div id="text1">{{item.address}}</div>
                 </div>
               </div>
@@ -16,9 +19,12 @@
               <div v-for="(item, index) in items" :key="index">
                 <div v-if="index === 0"></div>
                 <div v-else id="small">
-                  <img src="./../assets/img/demo2.png" style="height:90px;">
-                  <div id="activity-title2">{{item.title}}</div>
-                  <div id="text2">{{item.time}}</div>
+                  <img :src="item.poster" style="height:90px; width:60px;">
+                  <div><el-button type="text" id="activity-title2"
+                          @click="$router.push({name:'Activity', params: {activityId: item.id}})"
+                             >{{item.name}}</el-button></div>
+                  <div id="text2">{{item.time_start}}</div>
+                  <div id="text2">{{item.time_end}}</div>
                 </div>
               </div>
           </div>
@@ -27,39 +33,24 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: "TypeCard",
+    props: [
+        'title',
+    ],
     data() {
         return {
-            title: '最新',
-            item: {
-                imgUrl: '',
-                id: '',
-                title: '',
-                time: '',
-                address: ''
-            },
-            items: [{
-                   imgUrl: '',
-                   id: '',
-                   title: '同舟讲坛|英国中世纪地图和诗歌中的海洋想象',
-                   time: '2019年11月11日 18:30~20:30',
-                   address: '逸夫楼二楼报告厅'
-                },{
-                   imgUrl: '',
-                   id: '',
-                   title: '同舟讲坛|当动画遇上“最炫民族风”',
-                   time: '2019年12月12日 18:30~20:30',
-                   address: '同济大学德文图书馆二楼报告厅' 
-                },{
-                   imgUrl: '',
-                   id: '',
-                   title: '同舟讲坛|当动画遇上“最炫民族风”',
-                   time: '2019年12月12日 18:30~20:30',
-                   address: '同济大学德文图书馆二楼报告厅' 
-                }
-            ],
+            items:'',
         }
+    },
+    created() {
+        var self=this
+        console.log(this.title)
+        axios.get('http://119.3.187.81:8181/user-service/api/activities/basic?limit=3&variety='+this.title)
+             .then(response => (self.items = response.data))
+        console.log(self.items)
     }
 }
 </script>
@@ -83,6 +74,7 @@ export default {
 #content {
     display: flex;
     margin-top: 50px;
+    padding-bottom: 8px;
 }
 #content1 {
     width: 260px;
@@ -101,7 +93,7 @@ export default {
     display: flex;
     flex-direction: column;
     width: 190px;
-    margin-left: 40px;
+    margin-left: 30px;
 }
 #activity-title2 {
     margin-top: 4px;
@@ -115,5 +107,14 @@ export default {
 
 #small {
     margin-bottom: 14px;
+}
+</style>
+
+<style>
+.el-button--text {
+    color:black;
+}
+.el-button--text:hover {
+    color: #6eb5ac;
 }
 </style>

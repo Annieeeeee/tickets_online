@@ -2,12 +2,13 @@
   <div id="container">
     <Navigator></Navigator>
     <el-card style="margin-top:10px; margin-bottom:10px;">
+    <div v-if="item">
     <div id="box1">
-        <div><img src="./../assets/img/demo2.png" style="height:300px; width:200px;"></div>
+        <div><img :src="item.poster" style="height:300px; width:200px;"></div>
         <div id="box11">
-          <div id="title">{{item.title}}</div>
+          <div id="title">{{item.name}}</div>
           <span id="label">时间：</span>
-          <div id="text">{{item.time}}</div>
+          <div id="text">{{item.time_start}} ~ {{item.time_end}}</div>
           <span id="label">地点：</span>
           <div id="text">{{item.address}}</div>
           <span id="label">主讲人：</span>
@@ -24,7 +25,7 @@
     </div>
     <div id="box2">
       <span id="label">描述：</span>
-      <div id="words">{{item.description}}</div>
+      <div id="words">{{item.introduction}}</div>
       <br/>
       <span id="label">内容：</span>
       <div id="words">{{item.content}}</div>
@@ -44,6 +45,7 @@
         <div id="label">精选留言:</div>
         <Discussion></Discussion>
     </div>
+    </div>
     </el-card>
   </div>
 </template>
@@ -51,6 +53,7 @@
 <script>
 import Navigator from "../components/Navigator"
 import Discussion from "../components/Discussion"
+import axios from 'axios'
 
 export default {
     name: 'Activity',
@@ -60,16 +63,8 @@ export default {
     },
     data () {
         return {
-            item: {
-                imgUrl:'',
-                title:'同舟讲坛|当动画遇上最炫民族风',
-                sponsor:'彭擎政',
-                time:'2019/12/12 18:30-20:30',
-                address:'同济大学德文图书馆二楼报告厅',
-                description:'愿引中国风，独做痴漫郎',
-                content:'院线的热映，官微的推介，“国产动画崛起！”的口号，在优质动画上映的暑期档,此番景象似乎已成寻常.然而，单部动画带来的市场热潮往往难以持久，短暂的红火之后是漫长的深秋，冷热交替，缺少持续热度的国产动画市场，将要走向何方?我们期待在观看国产动画时，能窥见那些我们读过的书，吟过的诗，听过的历史的影子。中国风不只是青砖黛瓦，而是可以自信地截取历史长河中的任何片段.青年导演彭擎政，便是这样一位国产动画制作人，他是生活中的酷guy，p图，闭气无所不能；他也是事业上的酷guy，坚定着自己对于传统文化的热忱，他将中国风融入国产动画，凭借《中国唱诗班》《京剧猫》等作品圈粉无数，他让观众们在泛起涟漪的镜湖上，喜气洋洋的元日里，动荡不安的近代岁月中，感受中国传统文化的温度和力量。我们一起见证国产动画的潮起潮落，变化的是时代，不变的是我们最初的热爱，是我们一直以来的陪伴，是我们时刻仰望星空，满怀期待的姿态。十二月十二日，我们邀请每一个“仰望国产动画星空”的你，来与彭擎政导演对话，听听他心中的中国风和国产动画，我们在同舟讲坛，不见不散。',
-                peopleAmount: 100,
-            },
+            item:'',
+            activityId:'',
             percentage: 20,
             customColor: '#6eb5ac',
             peopleAppointed: 20,
@@ -79,8 +74,21 @@ export default {
     methods: {
         format(percentage) {
             return percentage === 100 ? '预约已满' : `${this.peopleAppointed}/${this.item.peopleAmount}`;
-      }
-    }
+        },
+        
+    },
+    computed: {
+
+    },
+    created() {
+       var self=this
+       this.activityId = this.$route.params.activityId
+       console.log(this.activityId)
+       axios.get('http://119.3.187.81:8181/user-service/api/activities/'+this.activityId)
+            .then(response => (self.item = response.data))
+       console.log(self.item)
+    },
+    
 }
 </script>
 

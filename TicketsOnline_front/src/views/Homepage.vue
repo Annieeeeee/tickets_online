@@ -41,14 +41,14 @@
        </el-card>
     </div>
     <div id="type-block">
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
-      <TypeCard></TypeCard>
+      <TypeCard :title=typeTitle[0]></TypeCard>
+      <TypeCard :title=typeTitle[1]></TypeCard>
+      <TypeCard :title=typeTitle[2]></TypeCard>
+      <TypeCard :title=typeTitle[3]></TypeCard>
+      <TypeCard :title=typeTitle[4]></TypeCard>
+      <TypeCard :title=typeTitle[5]></TypeCard>
+      <TypeCard :title=typeTitle[6]></TypeCard>
+      <TypeCard :title=typeTitle[7]></TypeCard>
     </div>
   </div>
 </template>
@@ -65,7 +65,16 @@ export default {
     },
     data () {
         return {
-
+            typeTitle: [
+                '最新',
+                '最热',
+                '讲座',
+                '文娱',
+                '体育',
+                '展览',
+                '社团',
+                '竞赛',
+            ]
         }
     }
 }

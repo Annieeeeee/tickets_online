@@ -26,7 +26,6 @@
 <script>
 
 export default {
-    inject: ['reload'],
     name: "Login",
     components: {
 
@@ -42,12 +41,13 @@ export default {
         this.$router.push({name, params});
       },
       login() {
-        //需要验证是否登陆成功
-        this.setValidate();
+        const form = {
+          emailAddress: this.email,
+          password: this.password
+        }
+        console.log('login form',form)
+        this.$store.dispatch('profile/getAuthority', form)
       },
-      setValidate() {
-        this.$router.push({path: "/"})
-      }
     },
     
 }

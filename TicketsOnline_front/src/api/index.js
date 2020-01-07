@@ -3,7 +3,7 @@ import {
     Message
 } from 'element-ui';
 
-const server = "http://localhost:8080"
+const server = "http://localhost:8181/user-service"
 
 const GET = 'GET'
 const POST = 'POST'
@@ -13,7 +13,9 @@ const PATCH = 'PATCH'
 
 export default {
     request,
-    getLimitAtivities,
+    getLimitActivities,
+    getActivity,
+    getAuthority,
 }
 
 
@@ -23,6 +25,7 @@ async function request(method, url, data) {
       const headers = token ? {
         Authorization: `Bearer ${token}`
       } : {}
+      console.log('headers:',headers)
       if (!url.match(/^http|\/\//g)) {
         url = server + url
       }
@@ -33,15 +36,17 @@ async function request(method, url, data) {
       const res = await axios({
         method: method,
         url: url,
-        data: data,
+        data: stringify(data),
         headers: headers
       })
       console.log(res);
       var mes = res;
       if (res.status < 400) {
+        return res;
         if (res.data.code && res.data.code < 400) {
           return res
         } else {
+          console.log(`first`)
           throw (res.data)
         }
       } else {
@@ -61,6 +66,19 @@ async function request(method, url, data) {
     }
 }
 
-async function getLimitAtivities(type) {
-    
+async function getLimitActivities(type) {
+  const res = await request(GET, '/api/activities/basic?limit=3&variety='+type);
+  return res;
+}
+
+async function getActivity(id) {
+  const res = await request(GET, '/api/activities/'+id);
+  return res;
+}
+
+async function getAuthority(form) {
+  console.log(form);
+  const res = await request(POST, '/api/account/login', form.data)
+  console.log("loginRes", res);
+  return res.data.data
 }
